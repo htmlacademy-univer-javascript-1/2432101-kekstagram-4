@@ -8,6 +8,7 @@ console.log(withinAcceptableLimits('проверяемая строка', 20)); 
 console.log(withinAcceptableLimits('проверяемая строка', 18)); // true
 console.log(withinAcceptableLimits('проверяемая строка', 10)); // false
 
+
 console.log('ЗАДАЧА №2');
 
 function isPalindrom (string) {
