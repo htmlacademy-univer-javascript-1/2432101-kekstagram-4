@@ -25,3 +25,8 @@ function numbersOfInput (string) {
   }
   return Number(result);
 }
+
+withinAcceptableLimits ('проверяемая строка', 20);
+isPalindrom('топот');
+numbersOfInput ('5 элемент');
+
