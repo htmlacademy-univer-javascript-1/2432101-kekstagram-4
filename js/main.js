@@ -1,6 +1,23 @@
 const getRandomNumberFromInterval = (start, end) =>
   Math.ceil(Math.random() * (end - start + 1)) + (start - 1);
 
+function createRandomIdFromRangeGenerator (min, max) {
+  const previousValues = [];
+
+  return function () {
+    let currentValue = getRandomNumberFromInterval(min, max);
+
+    if (previousValues.length >= (max - min + 1)) {
+      return null;
+    }
+    while (previousValues.includes(currentValue)) {
+      currentValue = getRandomNumberFromInterval(min, max);
+    }
+    previousValues.push(currentValue);
+    return currentValue;
+  };
+}
+
 const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
 const MESSAGES = [
@@ -40,22 +57,24 @@ const AvatarId = {
 
 const COUNT_PHOTOS = 25;
 
-const getComment = (_, id) => ({
+const getComment = (id) => ({
   id,
   avatar: `img/avatar-${getRandomNumberFromInterval(AvatarId.MIN, AvatarId.MAX)}.svg`,
   message: shuffle(MESSAGES).slice(0, getRandomNumberFromInterval(MessagesCount.MIN, MessagesCount.MAX)),
   name: NAMES[getRandomNumberFromInterval(0, NAMES.length - 1)],
 });
 
-const getPhotoData = (_, id) => ({
+const getPhotoData = (id) => ({
   id,
   url: `photos/${id}.jpg`,
   likes: `img/avatar-${getRandomNumberFromInterval(LikesCount.MIN, LikesCount.MAX)}.svg`,
   message: shuffle(MESSAGES).slice(0, getRandomNumberFromInterval(MessagesCount.MIN, MessagesCount.MAX)),
   description: DESCRIPTIONS[getRandomNumberFromInterval(0, DESCRIPTIONS.length - 1)],
-  comments: Array.from({length: getRandomNumberFromInterval(CommentsCount.MIN, CommentsCount.MAX)}, {getComment}),
+  comments: Array.from({length: getRandomNumberFromInterval(CommentsCount.MIN, CommentsCount.MAX)}, ()=>getComment(createRandomIdFromRangeGenerator(1,25))),
 });
 
-const getPhotos = (countPhotos) => Array.from({length: countPhotos}, getPhotoData);
+
+const getPhotos = (countPhotos) => Array.from({length: countPhotos},
+  ()=>getPhotoData(createRandomIdFromRangeGenerator(1,25)));
 
 getPhotos(COUNT_PHOTOS);
