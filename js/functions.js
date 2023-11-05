@@ -30,3 +30,21 @@ withinAcceptableLimits ('проверяемая строка', 20);
 isPalindrom('топот');
 numbersOfInput ('5 элемент');
 
+const timeToMinutes = (time) => {
+  const timeParts = time.split(':');
+  const hours = parseInt(timeParts[0], 10);
+  const minutes = parseInt(timeParts[1], 10);
+
+  return hours * 60 + minutes;
+};
+
+const meetingTime = (startWorkingTime, endWorkingTime, startMeetingTime, meetingDuration) => {
+  startWorkingTime = timeToMinutes(startWorkingTime);
+  endWorkingTime = timeToMinutes(endWorkingTime);
+  startMeetingTime = timeToMinutes(startMeetingTime);
+  const meetingEndTime = startMeetingTime + meetingDuration;
+
+  return (startMeetingTime >= startWorkingTime && meetingEndTime <= endWorkingTime);
+};
+
+meetingTime('8:00', '17:30', '08:00', 900);
