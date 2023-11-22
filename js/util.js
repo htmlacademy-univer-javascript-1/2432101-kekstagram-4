@@ -1,7 +1,7 @@
 const getRandomNumberFromInterval = (start, end) =>
   Math.ceil(Math.random() * (end - start + 1)) + (start - 1);
 
-function createRandomIdFromRangeGenerator (min, max) {
+function createRandomIdFromRangeGenerator(min, max) {
   const previousValues = [];
 
   return function () {
@@ -10,16 +10,25 @@ function createRandomIdFromRangeGenerator (min, max) {
     if (previousValues.length >= (max - min + 1)) {
       return null;
     }
+
     while (previousValues.includes(currentValue)) {
       currentValue = getRandomNumberFromInterval(min, max);
     }
+
     previousValues.push(currentValue);
     return currentValue;
   };
 }
 
-const generatePhotoID = createRandomIdFromRangeGenerator(1, 25);
+const getId = () => {
+  let lastGeneratedId = 0;
+
+  return function () {
+    lastGeneratedId++;
+    return lastGeneratedId;
+  };
+};
 
 const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
-export {getRandomNumberFromInterval, generatePhotoID, shuffle};
+export { getRandomNumberFromInterval, getId, shuffle, createRandomIdFromRangeGenerator };
