@@ -8,10 +8,12 @@ const MESSAGES = [
 ];
 
 const NAMES = ['Александр', 'Дмитрий', 'Максим', 'Сергей', 'Андрей', 'Алексей',
-  'Екатерина','Арина', 'Полина', 'Ольга', 'Юлия', 'Татьяна'];
+  'Екатерина', 'Арина', 'Полина', 'Ольга', 'Юлия', 'Татьяна'];
 
 const DESCRIPTIONS = ['Восторг!', 'Шедевр', 'Поставлю в рамочку', 'Необычный объект', 'Практически НЛО',
   'Что это вообще??', 'Нет слов', 'Описание съел Кекс', 'Возможно, это скульптура', 'Просто фото'];
+
+const COMMENTS_LOAD_COUNT = 5;
 
 const CommentsCount = {
   MIN: 0,
@@ -35,4 +37,4 @@ const AvatarId = {
 
 const COUNT_PHOTOS = 25;
 
-export {MESSAGES, NAMES, DESCRIPTIONS, CommentsCount, LikesCount, MessagesCount, AvatarId, COUNT_PHOTOS};
+export { MESSAGES, NAMES, DESCRIPTIONS, CommentsCount, LikesCount, MessagesCount, AvatarId, COUNT_PHOTOS, COMMENTS_LOAD_COUNT };
