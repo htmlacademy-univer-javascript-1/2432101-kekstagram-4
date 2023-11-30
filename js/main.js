@@ -5,3 +5,4 @@ import { renderThumbnail } from './render-thumbnail.js';
 const photos = getPhotos();
 renderThumbnail(photos);
 showBigPhoto(photos);
+ 
