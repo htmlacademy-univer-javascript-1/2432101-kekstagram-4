@@ -4,7 +4,7 @@ const body = document.querySelector('body');
 const bigPhoto = document.querySelector('.big-picture');
 const removeButton = bigPhoto.querySelector('.big-picture__cancel');
 const pictures = document.querySelector('.pictures');
-
+ 
 const hideBigPhoto = () => {
   bigPhoto.classList.add('hidden');
   body.classList.remove('modal-open');

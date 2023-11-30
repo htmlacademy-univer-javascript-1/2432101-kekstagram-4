@@ -22,7 +22,7 @@ const getPhotoData = (id) => ({
   description: DESCRIPTIONS[getRandomNumberFromInterval(0, DESCRIPTIONS.length - 1)],
   comments: Array.from({ length: getRandomNumberFromInterval(CommentsCount.MIN, CommentsCount.MAX) }, () => getComment(generateCommentID())),
 });
-
+ 
 const getPhotos = () => Array.from({ length: COUNT_PHOTOS }, () => getPhotoData(generatePhotoID()));
 
 export { getPhotos };

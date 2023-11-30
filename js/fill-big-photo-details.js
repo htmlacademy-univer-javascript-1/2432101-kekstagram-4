@@ -95,10 +95,10 @@ const fillBigPhotoDetails = (clickedPhoto) => {
 
   // Добавляем обработчик событий кнопке, загружающая комментарии
   commentsLoader.addEventListener('click', commentsLoaderOnClick);
-
+ 
   // Ресетим счётчик показываемых комментариев
   shownCommentsCount = COMMENTS_LOAD_COUNT;
-  
+
   // Вновь функция-заглушка
   // С помощью этой функции покажем комментарии
   showComments(clickedPhoto.comments);
