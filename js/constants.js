@@ -37,6 +37,76 @@ const AvatarId = {
 
 const COUNT_PHOTOS = 25;
 
+// Форма
+const VALID_CHARS = /^#[a-zа-яё0-9]{1,19}$/i;
+const TAG_MAX_COUNT = 5;
 
+const ERROR_MESSAGE = {
+  NOT_UNIQUE: 'Хэштеги не должны повторяться',
+  NOT_VALID: 'Хэштег должен начинаться с # и состоять из букв или цифр',
+  REACHED_MAX_COUNT: 'Максимум 5 хэштегов'
+};
 
-export { MESSAGES, NAMES, DESCRIPTIONS, CommentsCount, LikesCount, MessagesCount, AvatarId, COUNT_PHOTOS, COMMENTS_LOAD_COUNT };
+// Эффекты
+const SCALE_STEP = 25;
+const MIN_SCALE = 25;
+const MAX_SCALE = 100;
+const DEFAULT_SCALE = 100;
+
+const Effects = {
+  NONE: {
+    name: 'none',
+    style: 'none',
+    min: 0,
+    max: 100,
+    step: 1,
+    unit: '',
+  },
+
+  CHROME: {
+    name: 'chrome',
+    style: 'grayscale',
+    min: 0,
+    max: 1,
+    step: 0.1,
+    unit: '',
+  },
+
+  SEPIA: {
+    name: 'sepia',
+    style: 'sepia',
+    min: 0,
+    max: 1,
+    step: 0.1,
+    unit: '',
+  },
+
+  MARVIN: {
+    name: 'marvin',
+    style: 'invert',
+    min: 0,
+    max: 100,
+    step: 1,
+    unit: '%',
+  },
+
+  PHOBOS: {
+    name: 'phobos',
+    style: 'blur',
+    min: 0,
+    max: 3,
+    step: 0.1,
+    unit: 'px',
+  },
+
+  HEAT: {
+    name: 'heat',
+    style: 'brightness',
+    min: 1,
+    max: 3,
+    step: 0.1,
+    unit: '',
+  }
+};
+
+export { MESSAGES, NAMES, DESCRIPTIONS, CommentsCount, LikesCount, MessagesCount, AvatarId, COUNT_PHOTOS, COMMENTS_LOAD_COUNT, VALID_CHARS, TAG_MAX_COUNT, ERROR_MESSAGE, SCALE_STEP, MIN_SCALE, DEFAULT_SCALE, MAX_SCALE, Effects };

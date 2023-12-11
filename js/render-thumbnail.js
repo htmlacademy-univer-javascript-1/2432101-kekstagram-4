@@ -2,7 +2,6 @@ const thumbnailTemplate = document.querySelector('#picture').content.querySelect
 
 const photosContainer = document.querySelector('.pictures');
 
- 
 const getPhotoFromTemplate = (photoInfo) => {
   const photo = thumbnailTemplate.cloneNode(true);
 

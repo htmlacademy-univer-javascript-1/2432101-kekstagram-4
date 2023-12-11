@@ -4,7 +4,7 @@ const body = document.querySelector('body');
 const bigPhoto = document.querySelector('.big-picture');
 const removeButton = bigPhoto.querySelector('.big-picture__cancel');
 const pictures = document.querySelector('.pictures');
- 
+
 const hideBigPhoto = () => {
   bigPhoto.classList.add('hidden');
   body.classList.remove('modal-open');
@@ -45,7 +45,6 @@ function documentOnKeydown(evt) {
 // который мы создавали в 4 разделе
 const showBigPhoto = (photos) => {
   pictures.addEventListener('click', (evt) => {
-    evt.preventDefault();
     // Находим нажатую картинку
     // evt.target.closest находит ближайший родительский элемент,
     // у которого есть айди
@@ -57,10 +56,11 @@ const showBigPhoto = (photos) => {
     if (!clickedThumbnail) {
       return;
     }
+    evt.preventDefault();
+
     // Находим текущую фотку, на которую мы нажали
     const currentPhoto = photos.find((item) => item.id === +clickedThumbnail.dataset.id);
     renderBigPhoto();
-    // Функция-заглушка
     fillBigPhotoDetails(currentPhoto);
   });
 };
