@@ -6,7 +6,7 @@ function createRandomIdFromRangeGenerator(min, max) {
 
   return function () {
     let currentValue = getRandomNumberFromInterval(min, max);
- 
+
     if (previousValues.length >= (max - min + 1)) {
       return null;
     }
