@@ -6,6 +6,7 @@ import {
 import { getRandomNumberFromInterval, getId, createRandomIdFromRangeGenerator, shuffle } from './util.js';
 
 const generatePhotoID = createRandomIdFromRangeGenerator(1, COUNT_PHOTOS);
+
 const generateCommentID = getId();
 
 const getComment = (id) => ({
