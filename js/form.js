@@ -153,4 +153,4 @@ const onFormSubmit = (callback) => {
   });
 };
 
-export { onFormSubmit, hideImageModal, documentOnKeydown }
+export { onFormSubmit, hideImageModal, documentOnKeydown };
