@@ -109,4 +109,24 @@ const Effects = {
   }
 };
 
-export { MESSAGES, NAMES, DESCRIPTIONS, CommentsCount, LikesCount, MessagesCount, AvatarId, COUNT_PHOTOS, COMMENTS_LOAD_COUNT, VALID_CHARS, TAG_MAX_COUNT, ERROR_MESSAGE, SCALE_STEP, MIN_SCALE, DEFAULT_SCALE, MAX_SCALE, Effects };
+// Выполнение запросов на сервер
+
+const URL = 'https://29.javascript.pages.academy/kekstagram';
+
+const Route = {
+  GET_DATA: '/data',
+  SEND_DATA: '/',
+};
+
+const Method = {
+  GET: 'GET',
+  POST: 'POST',
+};
+
+const SERVER_ERROR_MESSAGE = {
+  GET_DATA: 'Данные не загрузились',
+  POST_DATA: 'Данные не отправились',
+};
+
+
+export { MESSAGES, NAMES, DESCRIPTIONS, CommentsCount, LikesCount, MessagesCount, AvatarId, COUNT_PHOTOS, COMMENTS_LOAD_COUNT, VALID_CHARS, TAG_MAX_COUNT, ERROR_MESSAGE, SCALE_STEP, MIN_SCALE, DEFAULT_SCALE, MAX_SCALE, Effects, Method, Route, URL, SERVER_ERROR_MESSAGE };

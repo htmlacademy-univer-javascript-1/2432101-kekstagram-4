@@ -23,7 +23,7 @@ const pristine = new Pristine(uploadForm, {
 
 // Функция, которая возвращает массив с разделенными хэштегами
 // Сначала очищает от лишних пробелов, потом разделяет тэги
-const getSplitTags = (tags) => tags.trim().split(' ');
+const getSplitTags = (tags) => tags.trim().split(' ').filter((tag) => tag.trim().length);
 
 // Проверяет, нет ли невалидных символов
 const areCharsValid = (value) => getSplitTags(value).every((tag) => VALID_CHARS.test(tag));
@@ -48,6 +48,7 @@ pristine.addValidator(
   areCharsValid,
   ERROR_MESSAGE.NOT_VALID,
   1,
+  true
 );
 
 pristine.addValidator(
@@ -55,6 +56,7 @@ pristine.addValidator(
   hasReachedHashtagLimit,
   ERROR_MESSAGE.REACHED_MAX_COUNT,
   2,
+  true
 );
 
 pristine.addValidator(
@@ -62,6 +64,7 @@ pristine.addValidator(
   areTagsUnique,
   ERROR_MESSAGE.NOT_UNIQUE,
   3,
+  true
 );
 
 const reset = () => {
@@ -80,7 +83,6 @@ const hideImageModal = () => {
   buttonCloseOverlay.removeEventListener('click', hideImageModal);
 };
 
-
 const documentOnKeydown = (evt) => {
   if (evt.key === 'Escape') {
     evt.preventDefault();
@@ -94,7 +96,6 @@ const showImageModal = () => {
   imageOverlay.classList.remove('hidden');
   body.classList.add('modal-open');
 
-  reset();
   buttonCloseOverlay.addEventListener('click', hideImageModal);
   document.addEventListener('keydown', documentOnKeydown);
 };
@@ -116,3 +117,40 @@ hashtagsField.addEventListener('keydown', (evt) => {
 });
 
 uploadFile.addEventListener('input', showImageModal);
+
+const SubmitBtnText = {
+  IDLE: 'Сохранить',
+  SENDING: 'Сохраняю...'
+};
+
+const blockSubmitButton = () => {
+  buttonCloseOverlay.disabled = true;
+  buttonCloseOverlay.textContent = SubmitBtnText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  buttonCloseOverlay.disabled = false;
+  buttonCloseOverlay.textContent = SubmitBtnText.IDLE;
+};
+
+// Функция, которая вызывается после отправки формы
+const onFormSubmit = (callback) => {
+  // Добавляем обработчик
+  uploadForm.addEventListener('submit', async (evt) => {
+    // Предотвращает стандартное поведение формы: отправку и перезагрузку страницы
+    evt.preventDefault();
+
+    // Проверяем, прошла ли форма валидацию
+    if (pristine.validate()) {
+      // Отключаем кнопку Submit при отправке данных
+      // Чтобы избежать повторную отправку данных
+      blockSubmitButton();
+      // Вызывает callback и передает данные из формы
+      await callback(new FormData(uploadForm));
+      // Разблокируем кнопку после завершения отправки данных
+      unblockSubmitButton();
+    }
+  });
+};
+
+export { onFormSubmit, hideImageModal, documentOnKeydown }
