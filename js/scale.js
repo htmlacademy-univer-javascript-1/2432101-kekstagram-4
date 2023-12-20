@@ -36,6 +36,8 @@ const resetScale = () => {
   scalePhoto(DEFAULT_SCALE);
 };
 
+resetScale();
+
 makeImageBiggerButton.addEventListener('click', makePhotoBigger);
 makeImageSmallerBtn.addEventListener('click', makePhotoSmaller);
 

@@ -1,6 +1,6 @@
 // form.js
 
-import { TAG_MAX_COUNT, VALID_CHARS, ERROR_MESSAGE } from './constants.js';
+import { TAG_MAX_COUNT, VALID_CHARS, ERROR_MESSAGE, FILE_TYPES } from './constants.js';
 import { resetEffects } from './effects.js';
 import { resetScale } from './scale.js';
 
@@ -14,6 +14,8 @@ const buttonCloseOverlay = uploadForm.querySelector('#upload-cancel');
 const hashtagsField = uploadForm.querySelector('.text__hashtags');
 const commentsField = uploadForm.querySelector('.text__description');
 
+const imagePreview = uploadForm.querySelector('.img-upload__preview img');
+const filterImagesPreview = uploadForm.querySelector('.effects__preview');
 
 // Создаём новую форму
 const pristine = new Pristine(uploadForm, {
@@ -116,8 +118,6 @@ hashtagsField.addEventListener('keydown', (evt) => {
   }
 });
 
-uploadFile.addEventListener('input', showImageModal);
-
 const SubmitBtnText = {
   IDLE: 'Сохранить',
   SENDING: 'Сохраняю...'
@@ -152,5 +152,35 @@ const onFormSubmit = (callback) => {
     }
   });
 };
+
+// Функция, которая меняет фотку каждой превьюшки фильтров на загруженную нами
+const changeEffectPreviewImage = (loadedImage) => {
+  filterImagesPreview.forEach((preview) => {
+    preview.style.backgroundImage = `url('${loadedImage}')`;
+  });
+};
+
+const showPreviewImage = () => {
+  // Находим загруженную фотку
+  const file = uploadFile.files[0];
+  const fileName = file.name.toLowerCase();
+
+  // Проверяем, что пользователь загрузил картинку с правильным расширением
+  const matches = FILE_TYPES.some((fileType) => fileName.endsWith(fileType));
+
+  // Если есть файл и он нужного формата, то меняем превьюшку
+  if (file && matches) {
+    const imageUrl = URL.createObjectURL(file);
+    imagePreview.src = imageUrl;
+    changeEffectPreviewImage(imageUrl);
+  }
+};
+
+const onChangeUpload = () => {
+  showImageModal();
+  showPreviewImage();
+};
+
+uploadFile.addEventListener('change', onChangeUpload);
 
 export { onFormSubmit, hideImageModal, documentOnKeydown };

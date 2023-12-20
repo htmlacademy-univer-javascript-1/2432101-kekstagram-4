@@ -128,5 +128,18 @@ const SERVER_ERROR_MESSAGE = {
   POST_DATA: 'Данные не отправились',
 };
 
+// Фильтры
 
-export { MESSAGES, NAMES, DESCRIPTIONS, CommentsCount, LikesCount, MessagesCount, AvatarId, COUNT_PHOTOS, COMMENTS_LOAD_COUNT, VALID_CHARS, TAG_MAX_COUNT, ERROR_MESSAGE, SCALE_STEP, MIN_SCALE, DEFAULT_SCALE, MAX_SCALE, Effects, Method, Route, URL, SERVER_ERROR_MESSAGE };
+const PICTURES_COUNT = 10;
+
+const Filters = {
+  DEFAULT: 'filter-default',
+  RANDOM: 'filter-random',
+  DISCUSSED: 'filter-discussed',
+};
+
+// Типы картинок
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+
+
+export { MESSAGES, NAMES, DESCRIPTIONS, CommentsCount, LikesCount, MessagesCount, AvatarId, COUNT_PHOTOS, COMMENTS_LOAD_COUNT, VALID_CHARS, TAG_MAX_COUNT, ERROR_MESSAGE, SCALE_STEP, MIN_SCALE, DEFAULT_SCALE, MAX_SCALE, Effects, Method, Route, URL, SERVER_ERROR_MESSAGE, Filters, PICTURES_COUNT, FILE_TYPES };
