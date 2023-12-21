@@ -1,5 +1,6 @@
-const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
+import { showBigPhoto } from './show-big-photo.js';
 
+const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const photosContainer = document.querySelector('.pictures');
 
 const getPhotoFromTemplate = (photoInfo) => {
@@ -21,8 +22,16 @@ const getPhotoFromTemplate = (photoInfo) => {
   return photo;
 };
 
+const clearPhotos = () => {
+  const photos = document.querySelectorAll('.picture');
+  photos.forEach((picture) => {
+    picture.remove();
+  });
+};
+
 
 const renderThumbnail = (photosInfo) => {
+  clearPhotos();
   const fragment = document.createDocumentFragment();
 
   for (const photoInfo of photosInfo) {
@@ -33,4 +42,9 @@ const renderThumbnail = (photosInfo) => {
   photosContainer.appendChild(fragment);
 };
 
-export { renderThumbnail };
+const renderPhotos = (photosInfo) => {
+  renderThumbnail(photosInfo);
+  showBigPhoto(photosInfo);
+};
+
+export { renderPhotos };
