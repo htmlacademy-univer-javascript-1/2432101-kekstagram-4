@@ -19,7 +19,7 @@ const commentsField = uploadForm.querySelector('.text__description');
 const imagePreview = uploadForm.querySelector('.img-upload__preview img');
 const filterImagesPreview = uploadForm.querySelectorAll('.effects__preview');
 
-// Создаём новую форму
+// Создаём новую форму:
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
