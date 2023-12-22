@@ -45,7 +45,7 @@ const onEffectsChange = (evt) => {
   updateSlider();
 };
 
-const onUpdateSlider = () => {
+const onSliderUpdate = () => {
   const sliderValue = effectLevelSlider.noUiSlider.get();
 
   if (chosenEffect === Effects.NONE) {
@@ -78,7 +78,7 @@ noUiSlider.create(effectLevelSlider, {
 
 // Добавляем обработчики событий
 effects.addEventListener('change', onEffectsChange);
-effectLevelSlider.noUiSlider.on('update', onUpdateSlider);
+effectLevelSlider.noUiSlider.on('update', onSliderUpdate);
 
 // Экспортируем функцию, она нам нужна в форме
 export { resetEffects };

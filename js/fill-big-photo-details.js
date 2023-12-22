@@ -69,7 +69,7 @@ const showComments = (comments) => {
 
     // Обязательно удаляем обработчик событий,
     // когда он нам становится не нужен
-    commentsLoader.removeEventListener('click', commentsLoaderOnClick);
+    commentsLoader.removeEventListener('click', onCommentsLoaderClick);
   }
 
   // После всего этого изменяем счётчик комментариев
@@ -78,7 +78,7 @@ const showComments = (comments) => {
 };
 
 // Здесь используем функцию
-function commentsLoaderOnClick() {
+function onCommentsLoaderClick() {
   shownCommentsCount += COMMENTS_LOAD_COUNT;
   showComments(currentPhoto.comments);
 }
@@ -94,7 +94,7 @@ const fillBigPhotoDetails = (clickedPhoto) => {
   bigPictureSocialCaption.textContent = clickedPhoto.description;
 
   // Добавляем обработчик событий кнопке, загружающая комментарии
-  commentsLoader.addEventListener('click', commentsLoaderOnClick);
+  commentsLoader.addEventListener('click', onCommentsLoaderClick);
 
   // Ресетим счётчик показываемых комментариев
   shownCommentsCount = COMMENTS_LOAD_COUNT;

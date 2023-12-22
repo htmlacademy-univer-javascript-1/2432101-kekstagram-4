@@ -16,7 +16,7 @@ const scalePhoto = (value) => {
   imagePreview.style.transform = `scale(${value / 100})`;
 };
 
-const makePhotoSmaller = () => {
+const onBiggerBtnClick = () => {
   // Преобразуем текст в элементе, показывающий масштаб, из string в int
   // Вычитаем из него scale_step
   // Math.max обеспечивает, чтоб масштаб не был меньше минимального
@@ -24,7 +24,7 @@ const makePhotoSmaller = () => {
   scalePhoto(currentValue);
 };
 
-const makePhotoBigger = () => {
+const onSmallerBtnClick = () => {
   // Преобразуем текст в элементе, показывающий масштаб, из string в int
   // Добавляем из него scale_step
   // Math.min обеспечивает, чтоб масштаб не был больше максимального
@@ -38,8 +38,8 @@ const resetScale = () => {
 
 resetScale();
 
-makeImageBiggerButton.addEventListener('click', makePhotoBigger);
-makeImageSmallerBtn.addEventListener('click', makePhotoSmaller);
+makeImageBiggerButton.addEventListener('click', onSmallerBtnClick);
+makeImageSmallerBtn.addEventListener('click', onBiggerBtnClick);
 
 // Экспортируем функцию, так как она нам нужна в форме
 export { resetScale };

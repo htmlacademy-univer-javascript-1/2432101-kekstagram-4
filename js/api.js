@@ -1,4 +1,4 @@
-import { URL, Method, Route, SERVER_ERROR_MESSAGE } from './constants.js';
+import { URL, Method, Route, ServerErrorMessage } from './constants.js';
 
 // Функция, которая отвечает за выполнение запросов на сервер
 const load = (route, errorText, method = Method.GET, body = null) =>
@@ -8,7 +8,7 @@ const load = (route, errorText, method = Method.GET, body = null) =>
       // Если ответ не успешен (код не в диапазоне 200-299)
       if (!response.ok) {
         // Бросаем ошибку
-        throw new Error();
+        throw new Error(`Произошла ошибка ${response.status}: ${response.statusText}`);
       }
       return response.json();
     })
@@ -19,11 +19,9 @@ const load = (route, errorText, method = Method.GET, body = null) =>
     });
 
 // Функция для получения данных с сервера
-const getData = () => load(Route.GET_DATA, SERVER_ERROR_MESSAGE.GET_DATA);
+const getData = () => load(Route.GET_DATA, ServerErrorMessage.GET_DATA);
 
 // Функция для отправки данных на сервер
-const sendData = (body) => {
-  load(Route.SEND_DATA, SERVER_ERROR_MESSAGE.POST_DATA, Method.POST, body);
-};
+const sendData = (body) => load(Route.SEND_DATA, ServerErrorMessage.POST_DATA, Method.POST, body);
 
 export { getData, sendData };

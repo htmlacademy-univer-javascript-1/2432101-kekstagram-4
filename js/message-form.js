@@ -1,86 +1,100 @@
-import { documentOnKeydown } from './form.js';
+import { showImageModal } from './form.js';
 
 // Получаем элементы для сообщений об ошибке и успешном завершении из шаблона
-const messageError = document.querySelector('#error').content.querySelector('.error');
-const messageSuccess = document.querySelector('#success').content.querySelector('.success');
+const errorMessage = document.querySelector('#error').content.querySelector('.error');
+const successMessage = document.querySelector('#success').content.querySelector('.success');
 
-const onCloseErrorMessage = () => {
+const hideErrorMessage = () => {
   const errorContainer = document.querySelector('.error');
 
   if (errorContainer) {
+    const errorButton = document.querySelector('.error__button');
+    errorButton.removeEventListener('click', onErrorButtonClick);
+
+    document.removeEventListener('keydown', onErrorMessageEscape);
+    document.removeEventListener('click', onErrorMessageClick);
+
     // Удаляем контейнер с сообщением об ошибке
     errorContainer.remove();
-    document.addEventListener('keydown', documentOnKeydown);
   }
 };
 
 // Обработчик клика для закрытия сообщения об ошибке
-const onErrorMouseClick = (evt) => {
-  const errorContainer = document.querySelector('.success_button');
+function onErrorMessageClick(evt) {
+  const errorContainer = document.querySelector('.error__button');
+
   if (evt.target !== errorContainer) {
-    onCloseErrorMessage();
-  }
-};
-
-const showErrorMessage = () => {
-  const message = messageError.cloneNode(true);
-  message.querySelector('.error__button').addEventListener('click', onCloseErrorMessage);
-
-  // Добавляем обработчики событий для закрытия сообщения об ошибке при клике вне сообщения и по клавише Escape
-  document.addEventListener('keydown', onEscapeError);
-  document.addEventListener('click', onErrorMouseClick);
-
-  // Убираем обработчик события для клавиши Escape из другого модуля
-  document.removeEventListener('keydown', documentOnKeydown);
-  // Добавляем сообщение об ошибке к body
-  document.body.append(message);
-};
-
-// Функция для закрытия сообщения об ошибке по клавише Escape
-function onEscapeError(evt) {
-  if (evt.key === 'Escape') {
-    evt.preventDefault();
-    onCloseErrorMessage();
+    hideErrorMessage();
   }
 }
 
-// Функция закрытия сообщения об успешном завершении
-const onCloseSuccessMessage = () => {
-  document.removeEventListener('keydown', onEscapeSuccess);
-  const successContainer = document.querySelector('.success');
+function onErrorButtonClick() {
+  showImageModal();
+}
 
-  // Удаляем контейнер с сообщением об успешном завершении
+const showErrorMessage = () => {
+  const message = errorMessage.cloneNode(true);
+  const errorButton = message.querySelector('.error__button');
+
+  // Добавляем обработчики событий для закрытия сообщения об ошибке при клике вне сообщения и по клавише Escape
+  document.addEventListener('keydown', onErrorMessageEscape);
+  document.addEventListener('click', onErrorMessageClick);
+  errorButton.addEventListener('click', onErrorButtonClick);
+
+  document.body.append(message);
+};
+
+// Функция закрытия сообщения об успешном завершении
+const hideSuccessMessage = () => {
+  const successContainer = document.querySelector('.success');
+  document.removeEventListener('keydown', onSuccessMessageEscape);
+
   if (successContainer) {
+    // Удаляем ненужные обработчики
+    document.querySelector('.success__button').remove('click', onSuccessClick);
+    document.removeEventListener('keydown', onSuccessMessageEscape);
+    document.removeEventListener('click', onSuccessClick);
+
+    // Удаляем контейнер с сообщением об успешном завершении
     successContainer.remove();
   }
 };
 
 // Обработчик клика для закрытия сообщения об успешном завершении
-const onSuccessMouseClick = (evt) => {
+function onSuccessClick(evt) {
   const successContainer = document.querySelector('.success__inner');
   if (evt.target !== successContainer) {
-    onCloseSuccessMessage();
+    hideSuccessMessage();
   }
-};
+}
 
 // Функция отображения сообщения об успешном завершении
 const showSuccessMessage = () => {
-  const message = messageSuccess.cloneNode(true);
-  message.querySelector('.success__button').addEventListener('click', onCloseSuccessMessage);
+  const message = successMessage.cloneNode(true);
+
+  message.querySelector('.success__button').addEventListener('click', onSuccessClick);
 
   // Добавляем обработчики событий для закрытия сообщения об успешном завершении при клике вне сообщения и по клавише Escape
-  document.addEventListener('click', onSuccessMouseClick);
-  document.addEventListener('keydown', onEscapeSuccess);
+  document.addEventListener('click', onSuccessClick);
+  document.addEventListener('keydown', onSuccessMessageEscape);
 
   // Добавляем сообщение об успешном завершении к body
   document.body.append(message);
 };
 
-// Функция для закрытия сообщения об успешном завершении по клавише Escape
-function onEscapeSuccess(evt) {
+function onSuccessMessageEscape(evt) {
   if (evt.key === 'Escape') {
     evt.preventDefault();
-    onCloseSuccessMessage();
+    hideSuccessMessage();
+  }
+}
+
+// Функция для закрытия сообщения об успешном завершении по клавише Escape
+function onErrorMessageEscape(evt) {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    hideErrorMessage();
+    document.removeEventListener('keydown', onErrorMessageEscape);
   }
 }
 
