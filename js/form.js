@@ -1,10 +1,11 @@
 // form.js
 
-import { TAG_MAX_COUNT, VALID_CHARS, ERROR_MESSAGE, FILE_TYPES } from './constants.js';
+import { TAG_MAX_COUNT, VALID_CHARS, FormErrorMessage, FILE_TYPES, SubmitBtnText } from './constants.js';
 import { resetEffects } from './effects.js';
 import { resetScale } from './scale.js';
+import { sendData } from './api.js';
+import { showErrorMessage, showSuccessMessage } from './message-form.js';
 
-// константы
 const body = document.querySelector('body');
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadFile = uploadForm.querySelector('#upload-file');
@@ -16,9 +17,9 @@ const hashtagsField = uploadForm.querySelector('.text__hashtags');
 const commentsField = uploadForm.querySelector('.text__description');
 
 const imagePreview = uploadForm.querySelector('.img-upload__preview img');
-const filterImagesPreview = uploadForm.querySelector('.effects__preview');
+const filterImagesPreview = uploadForm.querySelectorAll('.effects__preview');
 
-// Создаём новую форму
+// Создаём новую форму:
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
@@ -49,7 +50,7 @@ const areTagsUnique = (value) => {
 pristine.addValidator(
   hashtagsField,
   areCharsValid,
-  ERROR_MESSAGE.NOT_VALID,
+  FormErrorMessage.NOT_VALID,
   1,
   true
 );
@@ -57,7 +58,7 @@ pristine.addValidator(
 pristine.addValidator(
   hashtagsField,
   hasReachedHashtagLimit,
-  ERROR_MESSAGE.REACHED_MAX_COUNT,
+  FormErrorMessage.REACHED_MAX_COUNT,
   2,
   true
 );
@@ -65,7 +66,7 @@ pristine.addValidator(
 pristine.addValidator(
   hashtagsField,
   areTagsUnique,
-  ERROR_MESSAGE.NOT_UNIQUE,
+  FormErrorMessage.NOT_UNIQUE,
   3,
   true
 );
@@ -86,11 +87,11 @@ const hideImageModal = () => {
   buttonCloseOverlay.removeEventListener('click', hideImageModal);
 };
 
-const documentOnKeydown = (evt) => {
+const onDocumentKeydown = (evt) => {
   if (evt.key === 'Escape') {
     evt.preventDefault();
     hideImageModal();
-    document.removeEventListener('keydown', documentOnKeydown);
+    document.removeEventListener('keydown', onDocumentKeydown);
   }
 };
 
@@ -100,7 +101,7 @@ const showImageModal = () => {
   body.classList.add('modal-open');
 
   buttonCloseOverlay.addEventListener('click', hideImageModal);
-  document.addEventListener('keydown', documentOnKeydown);
+  document.addEventListener('keydown', onDocumentKeydown);
 };
 
 // Предотвращает закрытие формы,
@@ -119,11 +120,6 @@ hashtagsField.addEventListener('keydown', (evt) => {
   }
 });
 
-const SubmitBtnText = {
-  IDLE: 'Сохранить',
-  SENDING: 'Сохраняю...'
-};
-
 const blockSubmitButton = () => {
   buttonCloseOverlay.disabled = true;
   buttonCloseOverlay.textContent = SubmitBtnText.SENDING;
@@ -134,8 +130,9 @@ const unblockSubmitButton = () => {
   buttonCloseOverlay.textContent = SubmitBtnText.IDLE;
 };
 
+
 // Функция, которая вызывается после отправки формы
-const onFormSubmit = (callback) => {
+const onFormSubmit = () => {
   // Добавляем обработчик
   uploadForm.addEventListener('submit', async (evt) => {
     // Предотвращает стандартное поведение формы: отправку и перезагрузку страницы
@@ -143,13 +140,18 @@ const onFormSubmit = (callback) => {
 
     // Проверяем, прошла ли форма валидацию
     if (pristine.validate()) {
-      // Отключаем кнопку Submit при отправке данных
-      // Чтобы избежать повторную отправку данных
+      const formData = new FormData(uploadForm);
       blockSubmitButton();
-      // Вызывает callback и передает данные из формы
-      await callback(new FormData(uploadForm));
-      // Разблокируем кнопку после завершения отправки данных
-      unblockSubmitButton();
+      sendData(formData)
+        .then(() => {
+          hideImageModal();
+          showSuccessMessage();
+        })
+        .catch(() => {
+          hideImageModal();
+          showErrorMessage();
+        })
+        .finally(unblockSubmitButton);
     }
   });
 };
@@ -177,11 +179,11 @@ const showPreviewImage = () => {
   }
 };
 
-const onChangeUpload = () => {
+const onUploadChange = () => {
   showImageModal();
   showPreviewImage();
 };
 
-uploadFile.addEventListener('change', onChangeUpload);
+uploadFile.addEventListener('change', onUploadChange);
 
-export { onFormSubmit, hideImageModal, documentOnKeydown };
+export { onFormSubmit, showImageModal };
