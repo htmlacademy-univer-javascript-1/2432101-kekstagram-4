@@ -4,6 +4,7 @@ import { TAG_MAX_COUNT, VALID_CHARS, ERROR_MESSAGE, FILE_TYPES } from './constan
 import { resetEffects } from './effects.js';
 import { resetScale } from './scale.js';
 
+// константы
 const body = document.querySelector('body');
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadFile = uploadForm.querySelector('#upload-file');
